@@ -2,170 +2,127 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>MEDIAMOND - Luxury Mining</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MEDIAMOND - Mine</title>
 <style>
-  *{margin:0;padding:0;box-sizing:border-box}
-  :root{--bg:#0A0A0A;--gold:#D4AF37;--gold2:#F5E6A3;--card:#141414;--line:#1E1E1E;--muted:#7A7A7A}
-  body{background:var(--bg);color:#fff;font-family:ui-sans-system, -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial, sans-serif;min-height:100dvh;overflow-x:hidden;-webkit-font-smoothing:antialiased}
-  .app{max-width:430px;margin:0 auto;min-height:100dvh;position:relative;background:radial-gradient(600px 400px at 50% -10%, rgba(212,175,55,0.18), transparent 60%), var(--bg);display:flex;flex-direction:column}
-  header{display:flex;justify-content:space-between;align-items:center;padding:20px 22px;border-bottom:1px solid var(--line)}
-  header .user{display:flex;align-items:center;gap:10px}
-  header .avatar{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--gold),#8C6A12);display:grid;place-items:center;font-weight:700;color:#000;font-size:13px}
-  header .name{font-size:14px;letter-spacing:0.02em;opacity:0.9}
-  header .live{font-family:ui-monospace, SFMono-Regular, Menlo, monospace;font-size:10px;letter-spacing:0.18em;color:var(--gold);border:1px solid rgba(212,175,55,0.3);padding:5px 10px;border-radius:100px;display:flex;align-items:center;gap:6px}
-  header .dot{width:6px;height:6px;background:#00FF88;border-radius:50%;box-shadow:0 0 8px #00FF88;animation:pulse 2s infinite}
-  @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
-  .hero{flex:1;display:flex;flex-direction:column;align-items:center;padding:28px 22px 110px}
-  .diamond-wrap{position:relative;width:180px;height:180px;margin:18px 0 22px}
-  .diamond{position:absolute;inset:0;background:linear-gradient(145deg,#FFF9D6 0%,var(--gold) 22%,#9C7C1A 48%,var(--gold) 78%,#FFF3A8 100%);clip-path:polygon(50% 0%,100% 30%,85% 100%,15% 100%,0% 30%);box-shadow:0 20px 60px rgba(212,175,55,0.35), inset 0 2px 10px rgba(255,255,255,0.8);transform:rotate(0deg);animation:float 3.2s ease-in-out infinite}
-  .diamond::after{content:'';position:absolute;inset:12% 18% 22% 18%;background:linear-gradient(180deg,rgba(255,255,255,0.9),rgba(255,255,255,0));clip-path:polygon(50% 0%,100% 30%,85% 100%,15% 100%,0% 30%);opacity:0.55}
-  .glow{position:absolute;inset:-22%;background:radial-gradient(circle, rgba(212,175,55,0.45) 0%, transparent 62%);filter:blur(8px)}
-  @keyframes float{0%,100%{transform:translateY(0) rotate(0deg)}50%{transform:translateY(-10px) rotate(1deg)}}
-  .label{font-family:ui-monospace, SFMono-Regular, Menlo, monospace;font-size:10px;letter-spacing:0.28em;color:var(--muted);margin-bottom:12px}
-  .balance{font-size:54px;font-weight:700;letter-spacing:-0.04em;line-height:1;display:flex;align-items:baseline;gap:10px}
-  .balance span{font-size:18px;font-weight:300;letter-spacing:0.18em;color:var(--gold)}
-  .sub{font-family:ui-monospace, SFMono-Regular, Menlo, monospace;font-size:12px;color:var(--muted);margin-top:10px;display:flex;align-items:center;gap:8px}
-  .sub i{width:18px;height:1px;background:var(--line);display:inline-block}
-  .stats{display:grid;grid-template-columns:1fr 1fr;gap:12px;width:100%;margin-top:32px}
-  .card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:16px 18px;position:relative;overflow:hidden}
-  .card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);opacity:0.5}
-  .card label{font-family:ui-monospace, SFMono-Regular, Menlo, monospace;font-size:9px;letter-spacing:0.2em;color:var(--muted);display:block;margin-bottom:8px}
-  .card b{font-size:20px;font-weight:700;letter-spacing:-0.02em}
-  .card b.gold{color:var(--gold)}
-  .card small{font-family:ui-monospace, SFMono-Regular, Menlo, monospace;font-size:10px;color:#4A4A4A;display:block;margin-top:4px}
-  .progress{width:100%;height:3px;background:#1A1A1A;border-radius:10px;margin-top:26px;overflow:hidden;position:relative}
-  .progress span{display:block;height:100%;width:68%;background:linear-gradient(90deg,var(--gold),var(--gold2));box-shadow:0 0 10px var(--gold)}
-  .claim{margin-top:26px;width:100%;height:64px;border-radius:100px;border:none;background:linear-gradient(180deg,var(--gold2) 0%,var(--gold) 100%);color:#000;font-family:ui-sans-system, -apple-system, sans-serif;font-weight:700;font-size:15px;letter-spacing:0.18em;display:flex;align-items:center;justify-content:center;gap:10px;box-shadow:0 12px 30px rgba(212,175,55,0.35), inset 0 1px 0 rgba(255,255,255,0.8);cursor:pointer;transition:transform 0.15s}
-  .claim:active{transform:scale(0.98)}
-  .claim small{font-family:ui-monospace, SFMono-Regular, Menlo, monospace;font-size:11px;opacity:0.7;letter-spacing:0.05em}
-  nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:430px;background:rgba(10,10,10,0.88);backdrop-filter:blur(22px);border-top:1px solid var(--line);display:flex;justify-content:space-around;padding:10px 8px 22px;z-index:20}
-  nav button{background:none;border:none;color:var(--muted);font-family:ui-monospace, SFMono-Regular, Menlo, monospace;font-size:9px;letter-spacing:0.12em;display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer;padding:6px 12px;border-radius:12px;transition:0.2s}
-  nav button.active{color:var(--gold);background:rgba(212,175,55,0.08)}
-  nav button i{font-style:normal;font-size:18px}
-  #refModal{position:fixed;inset:0;background:rgba(0,0,0,0.72);backdrop-filter:blur(14px);display:none;place-items:center;z-index:50;padding:22px}
-  #refModal.open{display:grid}
-  .modal{background:#121212;border:1px solid #242424;border-radius:28px;padding:26px;width:100%;max-width:360px;box-shadow:0 20px 60px rgba(0,0,0,0.8)}
-  .modal h3{font-size:20px;font-weight:700;letter-spacing:-0.02em;margin-bottom:6px}
-  .modal p{font-size:13px;color:var(--muted);line-height:1.5;margin-bottom:18px}
-  .friends{display:flex;gap:10px;margin-bottom:20px}
-  .friend{flex:1;height:56px;border-radius:16px;border:1px dashed #2A2A2A;display:grid;place-items:center;font-family:ui-monospace, monospace;font-size:11px;color:#3A3A3A;background:#0F0F0F}
-  .friend.done{border-style:solid;border-color:var(--gold);color:var(--gold);background:rgba(212,175,55,0.08)}
-  .modal-btn{width:100%;height:48px;border-radius:100px;border:1px solid var(--gold);background:transparent;color:var(--gold);font-weight:700;letter-spacing:0.15em;font-size:12px;cursor:pointer}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0a0a0a;color:#fff;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;min-height:100vh}
+.app{max-width:480px;margin:0 auto;min-height:100vh;background:#0a0a0a;position:relative;padding-bottom:80px}
+.header{display:flex;justify-content:space-between;align-items:center;padding:16px 20px;border-bottom:1px solid #1a1a1a}
+.user{display:flex;align-items:center;gap:10px}
+.avatar{width:40px;height:40px;background:#FFD700;color:#000;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:18px}
+.mining-badge{border:1px solid #3a3410;background:#141200;color:#FFD700;padding:6px 14px;border-radius:20px;font-size:12px;letter-spacing:1px;display:flex;align-items:center;gap:6px}
+.dot{width:8px;height:8px;background:#00ff88;border-radius:50%}
+.balance{padding:28px 20px 10px;text-align:center}
+.bal-num{font-size:42px;font-weight:800;letter-spacing:-1px}
+.bal-num span{font-size:22px;color:#888;font-weight:600}
+.sub{color:#666;font-size:13px;margin-top:6px;letter-spacing:0.5px}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:20px}
+.card{background:#151515;border:1px solid #222;border-radius:16px;padding:16px}
+.card-label{color:#666;font-size:11px;letter-spacing:1px;margin-bottom:6px}
+.card-val{font-size:20px;font-weight:700}
+.card-val small{font-size:13px;color:#FFD700}
+.progress{padding:0 20px;margin-top:10px}
+.p-label{display:flex;justify-content:space-between;color:#666;font-size:12px;margin-bottom:8px}
+.bar-bg{height:8px;background:#1a1a1a;border-radius:10px;overflow:hidden}
+.bar-fill{height:100%;background:linear-gradient(90deg,#FFD700,#FFA500);width:60%}
+.claim{width:calc(100% - 40px);margin:20px;background:linear-gradient(180deg,#FFD700,#FFB800);color:#000;border:none;padding:18px;border-radius:16px;font-size:17px;font-weight:800;cursor:pointer;display:block}
+nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;background:#111;border-top:1px solid #222;display:flex;justify-content:space-around;padding:10px 0 14px;z-index:10}
+nav button{background:none;border:none;color:#666;font-size:11px;letter-spacing:1px;padding:8px 14px;border-radius:20px;cursor:pointer}
+nav button.active{background:#1e1c0a;color:#FFD700}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,0.7);display:none;align-items:center;justify-content:center;z-index:20;padding:20px}
+.modal.open{display:flex}
+.modal-box{background:#151515;border:1px solid #222;border-radius:20px;padding:24px;width:100%;max-width:360px;text-align:center}
+.task-item{background:#151515;border:1px solid #222;padding:14px;border-radius:12px;display:flex;justify-content:space-between;align-items:center;color:#fff;margin-bottom:10px}
+.task-btn{background:#FFD700;border:none;padding:6px 14px;border-radius:20px;font-weight:700;cursor:pointer}
 </style>
 </head>
 <body>
 <div class="app">
-  <header>
-    <div class="user"><div class="avatar">B</div><div class="name">@bianvenu</div></div>
-    <div class="live"><span class="dot"></span> LIVE MINING</div>
-  </header>
-  <div class="hero">
-    <div class="label">MEDIAMOND - LUXURY PROTOCOL</div>
-    <div class="diamond-wrap"><div class="glow"></div><div class="diamond"></div></div>
-    <div class="balance" id="bal">1847.32 <span>MED</span></div>
-    <div class="sub"><i></i> accumulating • block #184729 <i></i></div>
+  <div class="header">
+    <div class="user"><div class="avatar">B</div><div>@bianvenu</div></div>
+    <div class="mining-badge"><div class="dot"></div>LIVE MINING</div>
+  </div>
+  <div id="mine">
+    <div class="balance"><div class="bal-num" id="bal">1847.32 <span>MED</span></div><div class="sub">TOTAL MINED • AUTO BOOST +28%</div></div>
     <div class="stats">
-      <div class="card"><label>HASHRATE</label><b>245 MH/s</b><small>stable • 99.8%</small></div>
-      <div class="card"><label>YIELD BOOST</label><b class="gold">+28%</b><small>invite 3 friends</small></div>
+      <div class="card"><div class="card-label">HASHRATE</div><div class="card-val">128 <small>MH/s</small></div></div>
+      <div class="card"><div class="card-label">LEVEL</div><div class="card-val">3 <small>MINER</small></div></div>
     </div>
-    <div class="progress"><span id="bar"></span></div>
-    <button class="claim" id="claimBtn">CLAIM - <small id="claimAmt">12.4 MED</small></button>
-    <div class="sub" style="margin-top:14px">next reward in <b id="timer" style="color:#fff;margin-left:4px">04:22</b></div>
+    <div class="progress">
+      <div class="p-label"><span>MINING PROGRESS</span><span id="timer">04:22</span></div>
+      <div class="bar-bg"><div class="bar-fill" id="bar"></div></div>
+      <div class="sub" style="text-align:center;margin-top:10px">Next reward in <span id="claimAmt">12.40 MED</span></div>
+    </div>
+    <button class="claim" id="claimBtn">⚡ CLAIM REWARD</button>
+    <div class="sub" style="text-align:center;padding:10px" onclick="openRef()">Referral: Invite friends +250 MED</div>
   </div>
-</div>
-<nav>
-  <button class="active" onclick="showPage('mine',this)">MINE</button>
-  <button onclick="showPage('tasks',this)">TASKS</button>
-  <button onclick="showPage('friends',this)">FRIENDS</button>
-  <button onclick="showPage('wallet',this)">WALLET</button>
-  <button onclick="showPage('boost',this)">BOOST</button>
-</nav>
-
-<div id="tasks" style="display:none;padding:20px">
-  <h3 style="color:#fff">Tasks - Earn More</h3>
-  <div style="margin-top:15px;display:flex;flex-direction:column;gap:10px">
-    <div style="background:#151515;border:1px solid #222;padding:14px;border-radius:12px;display:flex;justify-content:space-between;color:#fff"><span>Join Telegram +100 MED</span><button onclick="doTask(this,100)" style="background:#FFD700;border:none;padding:6px 14px;border-radius:20px;font-weight:700">CLAIM</button></div>
-    <div style="background:#151515;border:1px solid #222;padding:14px;border-radius:12px;display:flex;justify-content:space-between;color:#fff"><span>Follow X +75 MED</span><button onclick="doTask(this,75)" style="background:#FFD700;border:none;padding:6px 14px;border-radius:20px;font-weight:700">CLAIM</button></div>
-    <div style="background:#151515;border:1px solid #222;padding:14px;border-radius:12px;display:flex;justify-content:space-between;color:#fff"><span>Invite 3 Friends +250 MED</span><button onclick="doTask(this,250)" style="background:#FFD700;border:none;padding:6px 14px;border-radius:20px;font-weight:700">CLAIM</button></div>
+  <div id="tasks" style="display:none;padding:20px">
+    <h3 style="color:#fff;margin-bottom:15px">Tasks - Earn More</h3>
+    <div class="task-item"><span>Join Telegram +100 MED</span><button class="task-btn" onclick="doTask(this,100)">CLAIM</button></div>
+    <div class="task-item"><span>Follow X +75 MED</span><button class="task-btn" onclick="doTask(this,75)">CLAIM</button></div>
+    <div class="task-item"><span>Invite 3 Friends +250 MED</span><button class="task-btn" onclick="doTask(this,250)">CLAIM</button></div>
+    <div class="task-item"><span>Daily Check-in +50 MED</span><button class="task-btn" onclick="doTask(this,50)">CLAIM</button></div>
   </div>
+  <div id="friends" style="display:none;padding:20px">
+    <h3 style="color:#fff">Invite Friends</h3>
+    <div style="background:#151515;border:1px dashed #333;padding:14px;border-radius:12px;margin-top:15px;color:#FFD700;word-break:break-all;font-size:13px">https://t.me/medcointocen_bot?start=bianvenu_boost28</div>
+    <button onclick="share()" style="width:100%;margin-top:10px;padding:12px;background:#222;color:#fff;border:1px solid #333;border-radius:10px;cursor:pointer">COPY LINK</button>
+  </div>
+  <div id="wallet" style="display:none;padding:20px">
+    <h3 style="color:#fff">Wallet</h3>
+    <div style="background:#151515;border:1px solid #222;padding:20px;border-radius:16px;margin-top:15px;color:#fff"><div style="color:#666;font-size:12px">TOTAL BALANCE</div><div id="wBal" style="font-size:28px;font-weight:800;margin-top:6px">1847.32 MED</div></div>
+  </div>
+  <div id="boost" style="display:none;padding:20px">
+    <h3 style="color:#fff">Boost Mining</h3>
+    <div class="task-item" style="margin-top:15px"><span>Turbo +50 MH/s</span><button class="task-btn" onclick="buyB(this,50,500)">500 MED</button></div>
+    <div class="task-item"><span>Super +120 MH/s</span><button class="task-btn" onclick="buyB(this,120,1200)">1200 MED</button></div>
+    <div class="task-item"><span>Mega +300 MH/s</span><button class="task-btn" onclick="buyB(this,300,2500)">2500 MED</button></div>
+  </div>
+  <nav>
+    <button class="active" onclick="showPage('mine',this)">MINE</button>
+    <button onclick="showPage('tasks',this)">TASKS</button>
+    <button onclick="showPage('friends',this)">FRIENDS</button>
+    <button onclick="showPage('wallet',this)">WALLET</button>
+    <button onclick="showPage('boost',this)">BOOST</button>
+  </nav>
 </div>
-
-<div id="friends" style="display:none;padding:20px">
-  <h3 style="color:#fff">Invite Friends</h3>
-  <div style="background:#151515;border:1px dashed #333;padding:14px;border-radius:12px;margin-top:15px;color:#FFD700;word-break:break-all">https://t.me/medcointocen_bot?start=bianvenu</div>
-  <button onclick="share()" style="width:100%;margin-top:10px;padding:12px;background:#222;color:#fff;border:1px solid #333;border-radius:10px">COPY LINK</button>
-</div>
-
-<div id="wallet" style="display:none;padding:20px">
-  <h3 style="color:#fff">Wallet</h3>
-  <div style="background:#151515;border:1px solid #222;padding:20px;border-radius:16px;margin-top:15px;color:#fff"><div id="wBal" style="font-size:26px;font-weight:700">1847.32 MED</div></div>
-</div>
-
-<div id="boost" style="display:none;padding:20px">
-  <h3 style="color:#fff">Boost</h3>
-  <div style="background:#151515;border:1px solid #222;padding:14px;border-radius:12px;margin-top:15px;display:flex;justify-content:space-between;color:#fff"><span>Turbo +50 MH/s</span><button onclick="buyB(this,50,500)" style="background:#FFD700;border:none;padding:6px 14px;border-radius:20px">500 MED</button></div>
-</div>
+<div class="modal" id="refModal">
+  <div class="modal-box">
+    <h3 style="color:#fff;margin-bottom:10px">Referral Bonus +28%</h3>
+    <p style="color:#888;font-size:14px;margin-bottom:15px">Invite friends and get 28% boost</p>
+    <div style="background:#0a0a0a;border:1px dashed #333;padding:12px;border-radius:10px;color:#FFD700;font-size:12px;word-break:break-all">https://t.me/medcointocen_bot?start=bianvenu_boost28</div>
+    <button onclick="share()" style="width:100%;margin-top:12px;padding:12px;background:#FFD700;border:none;border-radius:10px;font-weight:700">COPY & SHARE</button>
+    <button onclick="closeRef()" style="width:100%;margin-top:8px;padding:10px;background:transparent;color:#666;border:none">Close</button>
+  </div>
 </div>
 <script>
 function showPage(id,el){
-  var hero=document.querySelector('.hero');
-  var stats=document.querySelector('.stats');
-  var prog=document.querySelector('.progress');
-  var claim=document.getElementById('claimBtn');
-  var sub=document.querySelector('.app > .sub');
-  if(hero) hero.style.display=id==='mine'?'block':'none';
-  if(stats) stats.style.display=id==='mine'?'grid':'none';
-  if(prog) prog.style.display=id==='mine'?'block':'none';
-  if(claim) claim.style.display=id==='mine'?'block':'none';
-  if(sub) sub.style.display=id==='mine'?'block':'none';
+  document.getElementById('mine').style.display=id==='mine'?'block':'none';
   document.getElementById('tasks').style.display=id==='tasks'?'block':'none';
   document.getElementById('friends').style.display=id==='friends'?'block':'none';
   document.getElementById('wallet').style.display=id==='wallet'?'block':'none';
   document.getElementById('boost').style.display=id==='boost'?'block':'none';
   document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));
   el.classList.add('active');
-  if(id==='wallet'){ var wb=document.getElementById('wBal'); if(wb) wb.innerText=fmt(balance)+' MED'; }
+  if(id==='wallet'){var wb=document.getElementById('wBal');if(wb)wb.innerText=fmt(balance)+' MED';}
 }
-function doTask(btn,amt){ balance+=amt; balEl.innerHTML=fmt(balance)+' <span>MED</span>'; var wb=document.getElementById('wBal'); if(wb) wb.innerText=fmt(balance)+' MED'; btn.innerText='DONE ✓'; btn.disabled=true; btn.style.background='#222'; btn.style.color='#666'; }
-function buyB(btn,h,cost){ if(balance<cost){alert('Not enough MED');return} balance-=cost; balEl.innerHTML=fmt(balance)+' <span>MED</span>'; btn.innerText='OWNED'; btn.disabled=true; }
-
-let balance = 1847.32;
-let pending = 12.40;
-const balEl = document.getElementById('bal');
-const claimAmt = document.getElementById('claimAmt');
-const bar = document.getElementById('bar');
-const timerEl = document.getElementById('timer');
-let seconds = 262;
+function doTask(btn,amt){balance+=amt;balEl.innerHTML=fmt(balance)+' <span>MED</span>';var wb=document.getElementById('wBal');if(wb)wb.innerText=fmt(balance)+' MED';btn.innerText='DONE ✓';btn.disabled=true;btn.style.background='#222';btn.style.color='#666';}
+function buyB(btn,h,cost){if(balance<cost){alert('Not enough MED');return}balance-=cost;balEl.innerHTML=fmt(balance)+' <span>MED</span>';btn.innerText='OWNED';btn.disabled=true;}
+let balance=1847.32;let pending=12.40;
+const balEl=document.getElementById('bal');
+const claimAmt=document.getElementById('claimAmt');
+const bar=document.getElementById('bar');
+const timerEl=document.getElementById('timer');
+let seconds=262;
 function fmt(n){return n.toFixed(2)}
-setInterval(function(){
-  balance += 0.00027 * (1 + 0.28);
-  pending += 0.00019;
-  balEl.innerHTML = fmt(balance) + ' <span>MED</span>';
-  claimAmt.textContent = fmt(pending) + ' MED';
-  let w = 60 + (Date.now()/700 % 22);
-  bar.style.width = w + '%';
-}, 60);
-setInterval(function(){
-  seconds--; if(seconds<0) seconds=300;
-  let m = String(Math.floor(seconds/60)).padStart(2,'0');
-  let s = String(seconds%60).padStart(2,'0');
-  timerEl.textContent = m + ':' + s;
-},1000);
-document.getElementById('claimBtn').addEventListener('click', function(){
-  balance += pending; pending = 0.12;
-  this.style.transform='scale(0.96)';
-  setTimeout(function(btn){btn.style.transform='scale(1)'},150,this);
-  balEl.innerHTML = fmt(balance) + ' <span>MED</span>';
-  claimAmt.textContent = fmt(pending) + ' MED';
-});
+setInterval(function(){balance+=0.00027*1.28;pending+=0.00019;balEl.innerHTML=fmt(balance)+' <span>MED</span>';claimAmt.textContent=fmt(pending)+' MED';let w=60+(Date.now()/700%22);bar.style.width=w+'%';},60);
+setInterval(function(){seconds--;if(seconds<0)seconds=300;let m=String(Math.floor(seconds/60)).padStart(2,'0');let s=String(seconds%60).padStart(2,'0');timerEl.textContent=m+':'+s;},1000);
+document.getElementById('claimBtn').addEventListener('click',function(){balance+=pending;pending=0.12;this.style.transform='scale(0.96)';setTimeout(function(btn){btn.style.transform='scale(1)'},150,this);balEl.innerHTML=fmt(balance)+' <span>MED</span>';claimAmt.textContent=fmt(pending)+' MED';});
 function openRef(){document.getElementById('refModal').classList.add('open')}
 function closeRef(){document.getElementById('refModal').classList.remove('open')}
-function share(){
-  const link = 'https://t.me/medcointocen_bot?start=bianvenu+boost28';
-  navigator.clipboard.writeText(link).then(function(){alert('Referral link copied: ' + link)}).catch(function(){alert(link)});
-}
-document.getElementById('refModal').addEventListener('click', function(e){ if(e.target===this) closeRef() });
+function share(){const link='https://t.me/medcointocen_bot?start=bianvenu_boost28';navigator.clipboard.writeText(link).then(function(){alert('Copied!')}).catch(function(){alert(link)});}
+document.getElementById('refModal').addEventListener('click',function(e){if(e.target===this)closeRef()});
 </script>
 </body>
 </html>
