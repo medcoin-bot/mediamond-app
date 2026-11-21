@@ -73,58 +73,99 @@
     <button class="claim" id="claimBtn">CLAIM - <small id="claimAmt">12.4 MED</small></button>
     <div class="sub" style="margin-top:14px">next reward in <b id="timer" style="color:#fff;margin-left:4px">04:22</b></div>
   </div>
-  <nav>
-    <button class="active"><i>◈</i>MINE</button>
-    <button onclick="openRef()"><i>✦</i>TASKS</button>
-    <button onclick="openRef()"><i>◐</i>FRIENDS</button>
-    <button><i>⬙</i>WALLET</button>
-    <button onclick="openRef()"><i>⚡</i>BOOST</button>
-  </nav>
-  <div id="refModal"><div class="modal">
-    <h3>Invite 3 Friends</h3>
-    <p>Invite 3 friends to unlock +28% permanent yield boost and 500 MED bonus. Luxury mining is better together.</p>
-    <div class="friends"><div class="friend done">OK @alex</div><div class="friend">+ invite</div><div class="friend">+ invite</div></div>
-    <button class="modal-btn" onclick="share()">COPY REFERRAL LINK</button>
-    <button onclick="closeRef()" style="width:100%;background:none;border:none;color:#555;font-family:ui-monospace,monospace;font-size:11px;margin-top:14px;letter-spacing:0.1em;cursor:pointer">CLOSE</button>
-  </div></div>
+</div>
+<nav>
+  <button class="active" onclick="showPage('mine',this)">MINE</button>
+  <button onclick="showPage('tasks',this)">TASKS</button>
+  <button onclick="showPage('friends',this)">FRIENDS</button>
+  <button onclick="showPage('wallet',this)">WALLET</button>
+  <button onclick="showPage('boost',this)">BOOST</button>
+</nav>
+
+<div id="tasks" style="display:none;padding:20px">
+  <h3 style="color:#fff">Tasks - Earn More</h3>
+  <div style="margin-top:15px;display:flex;flex-direction:column;gap:10px">
+    <div style="background:#151515;border:1px solid #222;padding:14px;border-radius:12px;display:flex;justify-content:space-between;color:#fff"><span>Join Telegram +100 MED</span><button onclick="doTask(this,100)" style="background:#FFD700;border:none;padding:6px 14px;border-radius:20px;font-weight:700">CLAIM</button></div>
+    <div style="background:#151515;border:1px solid #222;padding:14px;border-radius:12px;display:flex;justify-content:space-between;color:#fff"><span>Follow X +75 MED</span><button onclick="doTask(this,75)" style="background:#FFD700;border:none;padding:6px 14px;border-radius:20px;font-weight:700">CLAIM</button></div>
+    <div style="background:#151515;border:1px solid #222;padding:14px;border-radius:12px;display:flex;justify-content:space-between;color:#fff"><span>Invite 3 Friends +250 MED</span><button onclick="doTask(this,250)" style="background:#FFD700;border:none;padding:6px 14px;border-radius:20px;font-weight:700">CLAIM</button></div>
+  </div>
+</div>
+
+<div id="friends" style="display:none;padding:20px">
+  <h3 style="color:#fff">Invite Friends</h3>
+  <div style="background:#151515;border:1px dashed #333;padding:14px;border-radius:12px;margin-top:15px;color:#FFD700;word-break:break-all">https://t.me/medcointocen_bot?start=bianvenu</div>
+  <button onclick="share()" style="width:100%;margin-top:10px;padding:12px;background:#222;color:#fff;border:1px solid #333;border-radius:10px">COPY LINK</button>
+</div>
+
+<div id="wallet" style="display:none;padding:20px">
+  <h3 style="color:#fff">Wallet</h3>
+  <div style="background:#151515;border:1px solid #222;padding:20px;border-radius:16px;margin-top:15px;color:#fff"><div id="wBal" style="font-size:26px;font-weight:700">1847.32 MED</div></div>
+</div>
+
+<div id="boost" style="display:none;padding:20px">
+  <h3 style="color:#fff">Boost</h3>
+  <div style="background:#151515;border:1px solid #222;padding:14px;border-radius:12px;margin-top:15px;display:flex;justify-content:space-between;color:#fff"><span>Turbo +50 MH/s</span><button onclick="buyB(this,50,500)" style="background:#FFD700;border:none;padding:6px 14px;border-radius:20px">500 MED</button></div>
+</div>
 </div>
 <script>
-  let balance = 1847.32;
-  let pending = 12.40;
-  const balEl = document.getElementById('bal');
-  const claimAmt = document.getElementById('claimAmt');
-  const bar = document.getElementById('bar');
-  const timerEl = document.getElementById('timer');
-  let seconds = 262;
-  function fmt(n){return n.toFixed(2)}
-  setInterval(function(){
-    balance += 0.00027 * (1 + 0.28);
-    pending += 0.00019;
-    balEl.innerHTML = fmt(balance) + ' <span>MED</span>';
-    claimAmt.textContent = fmt(pending) + ' MED';
-    let w = 60 + (Date.now()/80 % 22);
-    bar.style.width = w + '%';
-  }, 60);
-  setInterval(function(){
-    seconds--; if(seconds<0) seconds=300;
-    let m = String(Math.floor(seconds/60)).padStart(2,'0');
-    let s = String(seconds%60).padStart(2,'0');
-    timerEl.textContent = m + ':' + s;
-  },1000);
-  document.getElementById('claimBtn').addEventListener('click', function(){
-    balance += pending; pending = 0.12;
-    this.style.transform='scale(0.96)';
-    setTimeout(function(btn){btn.style.transform='scale(1)'},150,this);
-    balEl.innerHTML = fmt(balance) + ' <span>MED</span>';
-    claimAmt.textContent = fmt(pending) + ' MED';
-  });
-  function openRef(){document.getElementById('refModal').classList.add('open')}
-  function closeRef(){document.getElementById('refModal').classList.remove('open')}
-  function share(){
-    const link = 'https://mediamond.app/join/@bianvenu?boost=28';
-    alert('Referral link copied: ' + link);
-  }
-  document.getElementById('refModal').addEventListener('click', function(e){ if(e.target===this) closeRef() });
+function showPage(id,el){
+  var hero=document.querySelector('.hero');
+  var stats=document.querySelector('.stats');
+  var prog=document.querySelector('.progress');
+  var claim=document.getElementById('claimBtn');
+  var sub=document.querySelector('.app > .sub');
+  if(hero) hero.style.display=id==='mine'?'block':'none';
+  if(stats) stats.style.display=id==='mine'?'grid':'none';
+  if(prog) prog.style.display=id==='mine'?'block':'none';
+  if(claim) claim.style.display=id==='mine'?'block':'none';
+  if(sub) sub.style.display=id==='mine'?'block':'none';
+  document.getElementById('tasks').style.display=id==='tasks'?'block':'none';
+  document.getElementById('friends').style.display=id==='friends'?'block':'none';
+  document.getElementById('wallet').style.display=id==='wallet'?'block':'none';
+  document.getElementById('boost').style.display=id==='boost'?'block':'none';
+  document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));
+  el.classList.add('active');
+  if(id==='wallet'){ var wb=document.getElementById('wBal'); if(wb) wb.innerText=fmt(balance)+' MED'; }
+}
+function doTask(btn,amt){ balance+=amt; balEl.innerHTML=fmt(balance)+' <span>MED</span>'; var wb=document.getElementById('wBal'); if(wb) wb.innerText=fmt(balance)+' MED'; btn.innerText='DONE ✓'; btn.disabled=true; btn.style.background='#222'; btn.style.color='#666'; }
+function buyB(btn,h,cost){ if(balance<cost){alert('Not enough MED');return} balance-=cost; balEl.innerHTML=fmt(balance)+' <span>MED</span>'; btn.innerText='OWNED'; btn.disabled=true; }
+
+let balance = 1847.32;
+let pending = 12.40;
+const balEl = document.getElementById('bal');
+const claimAmt = document.getElementById('claimAmt');
+const bar = document.getElementById('bar');
+const timerEl = document.getElementById('timer');
+let seconds = 262;
+function fmt(n){return n.toFixed(2)}
+setInterval(function(){
+  balance += 0.00027 * (1 + 0.28);
+  pending += 0.00019;
+  balEl.innerHTML = fmt(balance) + ' <span>MED</span>';
+  claimAmt.textContent = fmt(pending) + ' MED';
+  let w = 60 + (Date.now()/700 % 22);
+  bar.style.width = w + '%';
+}, 60);
+setInterval(function(){
+  seconds--; if(seconds<0) seconds=300;
+  let m = String(Math.floor(seconds/60)).padStart(2,'0');
+  let s = String(seconds%60).padStart(2,'0');
+  timerEl.textContent = m + ':' + s;
+},1000);
+document.getElementById('claimBtn').addEventListener('click', function(){
+  balance += pending; pending = 0.12;
+  this.style.transform='scale(0.96)';
+  setTimeout(function(btn){btn.style.transform='scale(1)'},150,this);
+  balEl.innerHTML = fmt(balance) + ' <span>MED</span>';
+  claimAmt.textContent = fmt(pending) + ' MED';
+});
+function openRef(){document.getElementById('refModal').classList.add('open')}
+function closeRef(){document.getElementById('refModal').classList.remove('open')}
+function share(){
+  const link = 'https://t.me/medcointocen_bot?start=bianvenu+boost28';
+  navigator.clipboard.writeText(link).then(function(){alert('Referral link copied: ' + link)}).catch(function(){alert(link)});
+}
+document.getElementById('refModal').addEventListener('click', function(e){ if(e.target===this) closeRef() });
 </script>
 </body>
 </html>
