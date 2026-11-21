@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>MEDIAMOND - Luxury Mining</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  :root{--bg:#0A0A0A;--gold:#D4AF37;--gold2:#F5E6A3;--card:#141414;--line:#1E1E1E;--muted:#7A7A7A}
+  body{background:var(--bg);color:#fff;font-family:ui-sans-system, -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial, sans-serif;min-height:100dvh;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+  .app{max-width:430px;margin:0 auto;min-height:100dvh;position:relative;background:radial-gradient(600px 400px at 50% -10%, rgba(212,175,55,0.18), transparent 60%), var(--bg);display:flex;flex-direction:column}
+  header{display:flex;justify-content:space-between;align-items:center;padding:20px 22px;border-bottom:1px solid var(--line)}
+  header .user{display:flex;align-items:center;gap:10px}
+  header .avatar{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--gold),#8C6A12);display:grid;place-items:center;font-weight:700;color:#000;font-size:13px}
+  header .name{font-size:14px;letter-spacing:0.02em;opacity:0.9}
+  header .live{font-family:ui-monospace, SFMono-Regular, Menlo, monospace;font-size:10px;letter-spacing:0.18em;color:var(--gold);border:1px solid rgba(212,175,55,0.3);padding:5px 10px;border-radius:100px;display:flex;align-items:center;gap:6px}
+  header .dot{width:6px;height:6px;background:#00FF88;border-radius:50%;box-shadow:0 0 8px #00FF88;animation:pulse 2s infinite}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
+  .hero{flex:1;display:flex;flex-direction:column;align-items:center;padding:28px 22px 110px}
+  .diamond-wrap{position:relative;width:180px;height:180px;margin:18px 0 22px}
+  .diamond{position:absolute;inset:0;background:linear-gradient(145deg,#FFF9D6 0%,var(--gold) 22%,#9C7C1A 48%,var(--gold) 78%,#FFF3A8 100%);clip-path:polygon(50% 0%,100% 30%,85% 100%,15% 100%,0% 30%);box-shadow:0 20px 60px rgba(212,175,55,0.35), inset 0 2px 10px rgba(255,255,255,0.8);transform:rotate(0deg);animation:float 3.2s ease-in-out infinite}
+  .diamond::after{content:'';position:absolute;inset:12% 18% 22% 18%;background:linear-gradient(180deg,rgba(255,255,255,0.9),rgba(255,255,255,0));clip-path:polygon(50% 0%,100% 30%,85% 100%,15% 100%,0% 30%);opacity:0.55}
+  .glow{position:absolute;inset:-22%;background:radial-gradient(circle, rgba(212,175,55,0.45) 0%, transparent 62%);filter:blur(8px)}
+  @keyframes float{0%,100%{transform:translateY(0) rotate(0deg)}50%{transform:translateY(-10px) rotate(1deg)}}
+  .label{font-family:ui-monospace, SFMono-Regular, Menlo, monospace;font-size:10px;letter-spacing:0.28em;color:var(--muted);margin-bottom:12px}
+  .balance{font-size:54px;font-weight:700;letter-spacing:-0.04em;line-height:1;display:flex;align-items:baseline;gap:10px}
+  .balance span{font-size:18px;font-weight:300;letter-spacing:0.18em;color:var(--gold)}
+  .sub{font-family:ui-monospace, SFMono-Regular, Menlo, monospace;font-size:12px;color:var(--muted);margin-top:10px;display:flex;align-items:center;gap:8px}
+  .sub i{width:18px;height:1px;background:var(--line);display:inline-block}
+  .stats{display:grid;grid-template-columns:1fr 1fr;gap:12px;width:100%;margin-top:32px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:16px 18px;position:relative;overflow:hidden}
+  .card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);opacity:0.5}
+  .card label{font-family:ui-monospace, SFMono-Regular, Menlo, monospace;font-size:9px;letter-spacing:0.2em;color:var(--muted);display:block;margin-bottom:8px}
+  .card b{font-size:20px;font-weight:700;letter-spacing:-0.02em}
+  .card b.gold{color:var(--gold)}
+  .card small{font-family:ui-monospace, SFMono-Regular, Menlo, monospace;font-size:10px;color:#4A4A4A;display:block;margin-top:4px}
+  .progress{width:100%;height:3px;background:#1A1A1A;border-radius:10px;margin-top:26px;overflow:hidden;position:relative}
+  .progress span{display:block;height:100%;width:68%;background:linear-gradient(90deg,var(--gold),var(--gold2));box-shadow:0 0 10px var(--gold)}
+  .claim{margin-top:26px;width:100%;height:64px;border-radius:100px;border:none;background:linear-gradient(180deg,var(--gold2) 0%,var(--gold) 100%);color:#000;font-family:ui-sans-system, -apple-system, sans-serif;font-weight:700;font-size:15px;letter-spacing:0.18em;display:flex;align-items:center;justify-content:center;gap:10px;box-shadow:0 12px 30px rgba(212,175,55,0.35), inset 0 1px 0 rgba(255,255,255,0.8);cursor:pointer;transition:transform 0.15s}
+  .claim:active{transform:scale(0.98)}
+  .claim small{font-family:ui-monospace, SFMono-Regular, Menlo, monospace;font-size:11px;opacity:0.7;letter-spacing:0.05em}
+  nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:430px;background:rgba(10,10,10,0.88);backdrop-filter:blur(22px);border-top:1px solid var(--line);display:flex;justify-content:space-around;padding:10px 8px 22px;z-index:20}
+  nav button{background:none;border:none;color:var(--muted);font-family:ui-monospace, SFMono-Regular, Menlo, monospace;font-size:9px;letter-spacing:0.12em;display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer;padding:6px 12px;border-radius:12px;transition:0.2s}
+  nav button.active{color:var(--gold);background:rgba(212,175,55,0.08)}
+  nav button i{font-style:normal;font-size:18px}
+  #refModal{position:fixed;inset:0;background:rgba(0,0,0,0.72);backdrop-filter:blur(14px);display:none;place-items:center;z-index:50;padding:22px}
+  #refModal.open{display:grid}
+  .modal{background:#121212;border:1px solid #242424;border-radius:28px;padding:26px;width:100%;max-width:360px;box-shadow:0 20px 60px rgba(0,0,0,0.8)}
+  .modal h3{font-size:20px;font-weight:700;letter-spacing:-0.02em;margin-bottom:6px}
+  .modal p{font-size:13px;color:var(--muted);line-height:1.5;margin-bottom:18px}
+  .friends{display:flex;gap:10px;margin-bottom:20px}
+  .friend{flex:1;height:56px;border-radius:16px;border:1px dashed #2A2A2A;display:grid;place-items:center;font-family:ui-monospace, monospace;font-size:11px;color:#3A3A3A;background:#0F0F0F}
+  .friend.done{border-style:solid;border-color:var(--gold);color:var(--gold);background:rgba(212,175,55,0.08)}
+  .modal-btn{width:100%;height:48px;border-radius:100px;border:1px solid var(--gold);background:transparent;color:var(--gold);font-weight:700;letter-spacing:0.15em;font-size:12px;cursor:pointer}
+</style>
+</head>
+<body>
+<div class="app">
+  <header>
+    <div class="user"><div class="avatar">B</div><div class="name">@bianvenu</div></div>
+    <div class="live"><span class="dot"></span> LIVE MINING</div>
+  </header>
+  <div class="hero">
+    <div class="label">MEDIAMOND - LUXURY PROTOCOL</div>
+    <div class="diamond-wrap"><div class="glow"></div><div class="diamond"></div></div>
+    <div class="balance" id="bal">1847.32 <span>MED</span></div>
+    <div class="sub"><i></i> accumulating • block #184729 <i></i></div>
+    <div class="stats">
+      <div class="card"><label>HASHRATE</label><b>245 MH/s</b><small>stable • 99.8%</small></div>
+      <div class="card"><label>YIELD BOOST</label><b class="gold">+28%</b><small>invite 3 friends</small></div>
+    </div>
+    <div class="progress"><span id="bar"></span></div>
+    <button class="claim" id="claimBtn">CLAIM - <small id="claimAmt">12.4 MED</small></button>
+    <div class="sub" style="margin-top:14px">next reward in <b id="timer" style="color:#fff;margin-left:4px">04:22</b></div>
+  </div>
+  <nav>
+    <button class="active"><i>◈</i>MINE</button>
+    <button onclick="openRef()"><i>✦</i>TASKS</button>
+    <button onclick="openRef()"><i>◐</i>FRIENDS</button>
+    <button><i>⬙</i>WALLET</button>
+    <button onclick="openRef()"><i>⚡</i>BOOST</button>
+  </nav>
+  <div id="refModal"><div class="modal">
+    <h3>Invite 3 Friends</h3>
+    <p>Invite 3 friends to unlock +28% permanent yield boost and 500 MED bonus. Luxury mining is better together.</p>
+    <div class="friends"><div class="friend done">OK @alex</div><div class="friend">+ invite</div><div class="friend">+ invite</div></div>
+    <button class="modal-btn" onclick="share()">COPY REFERRAL LINK</button>
+    <button onclick="closeRef()" style="width:100%;background:none;border:none;color:#555;font-family:ui-monospace,monospace;font-size:11px;margin-top:14px;letter-spacing:0.1em;cursor:pointer">CLOSE</button>
+  </div></div>
+</div>
+<script>
+  let balance = 1847.32;
+  let pending = 12.40;
+  const balEl = document.getElementById('bal');
+  const claimAmt = document.getElementById('claimAmt');
+  const bar = document.getElementById('bar');
+  const timerEl = document.getElementById('timer');
+  let seconds = 262;
+  function fmt(n){return n.toFixed(2)}
+  setInterval(function(){
+    balance += 0.00027 * (1 + 0.28);
+    pending += 0.00019;
+    balEl.innerHTML = fmt(balance) + ' <span>MED</span>';
+    claimAmt.textContent = fmt(pending) + ' MED';
+    let w = 60 + (Date.now()/80 % 22);
+    bar.style.width = w + '%';
+  }, 60);
+  setInterval(function(){
+    seconds--; if(seconds<0) seconds=300;
+    let m = String(Math.floor(seconds/60)).padStart(2,'0');
+    let s = String(seconds%60).padStart(2,'0');
+    timerEl.textContent = m + ':' + s;
+  },1000);
+  document.getElementById('claimBtn').addEventListener('click', function(){
+    balance += pending; pending = 0.12;
+    this.style.transform='scale(0.96)';
+    setTimeout(function(btn){btn.style.transform='scale(1)'},150,this);
+    balEl.innerHTML = fmt(balance) + ' <span>MED</span>';
+    claimAmt.textContent = fmt(pending) + ' MED';
+  });
+  function openRef(){document.getElementById('refModal').classList.add('open')}
+  function closeRef(){document.getElementById('refModal').classList.remove('open')}
+  function share(){
+    const link = 'https://mediamond.app/join/@bianvenu?boost=28';
+    alert('Referral link copied: ' + link);
+  }
+  document.getElementById('refModal').addEventListener('click', function(e){ if(e.target===this) closeRef() });
+</script>
+</body>
+</html>
